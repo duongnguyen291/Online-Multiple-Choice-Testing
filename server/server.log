@@ -1,0 +1,453 @@
+[2025-11-27 21:53:24] [INFO ] === Server Starting ===
+[2025-11-27 21:53:24] [INFO ] Initializing database...
+[2025-11-27 21:53:24] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 21:53:24] [ERROR] Cannot open schema file
+[2025-11-27 21:53:24] [ERROR] Failed to initialize database
+[2025-11-27 21:53:24] [INFO ] Database closed
+[2025-11-27 21:53:29] [INFO ] === Server Starting ===
+[2025-11-27 21:53:29] [INFO ] Initializing database...
+[2025-11-27 21:53:29] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 21:53:29] [ERROR] Cannot open schema file
+[2025-11-27 21:53:29] [ERROR] Failed to initialize database
+[2025-11-27 21:53:29] [INFO ] Database closed
+[2025-11-27 21:57:45] [INFO ] === Server Starting ===
+[2025-11-27 21:57:45] [INFO ] Initializing database...
+[2025-11-27 21:57:45] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 21:57:45] [INFO ] Found schema file: ../database/schema.sql
+[2025-11-27 21:57:45] [INFO ] Database schema initialized
+[2025-11-27 21:57:45] [INFO ] Inserting sample data...
+[2025-11-27 21:57:45] [INFO ] Found init data file: ../database/init_data.sql
+[2025-11-27 21:57:45] [INFO ] Database initialized successfully
+[2025-11-27 21:57:45] [INFO ] Creating server on port 8888...
+[2025-11-27 21:57:45] [INFO ] Starting server...
+[2025-11-27 21:57:45] [INFO ] Server listening on port 8888
+[2025-11-27 21:57:45] [INFO ] Epoll initialized
+[2025-11-27 21:57:45] [INFO ] Server started successfully
+[2025-11-27 21:58:24] [INFO ] New connection accepted: fd=7
+[2025-11-27 21:58:24] [ERROR] Payload too large: 4225826 bytes
+[2025-11-27 21:58:24] [INFO ] Client disconnected: fd=7
+[2025-11-27 21:58:40] [INFO ] New connection accepted: fd=7
+[2025-11-27 21:58:40] [ERROR] Payload too large: 4487970 bytes
+[2025-11-27 21:58:40] [INFO ] Client disconnected: fd=7
+[2025-11-27 21:58:40] [INFO ] New connection accepted: fd=7
+[2025-11-27 21:58:40] [ERROR] Payload too large: 3570466 bytes
+[2025-11-27 21:58:40] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:01:18] [INFO ] Received signal 2, shutting down...
+[2025-11-27 22:01:18] [INFO ] Server stopped
+[2025-11-27 22:01:24] [INFO ] === Server Starting ===
+[2025-11-27 22:01:24] [INFO ] Initializing database...
+[2025-11-27 22:01:24] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 22:01:24] [INFO ] Found schema file: ../database/schema.sql
+[2025-11-27 22:01:24] [INFO ] Database schema initialized
+[2025-11-27 22:01:24] [INFO ] Database initialized successfully
+[2025-11-27 22:01:24] [INFO ] Creating server on port 8888...
+[2025-11-27 22:01:24] [INFO ] Starting server...
+[2025-11-27 22:01:24] [INFO ] Server listening on port 8888
+[2025-11-27 22:01:24] [INFO ] Epoll initialized
+[2025-11-27 22:01:24] [INFO ] Server started successfully
+[2025-11-27 22:01:29] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:01:29] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:01:29] [INFO ] User created: quicktest
+[2025-11-27 22:01:29] [INFO ] User registered: quicktest
+[2025-11-27 22:01:29] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:01:29] [INFO ] User logged in: quicktest
+[2025-11-27 22:01:29] [INFO ] Received message type 201 from fd=7
+[2025-11-27 22:01:29] [INFO ] Practice questions sent to user 5
+[2025-11-27 22:01:29] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:01:29] [INFO ] Room list sent to user 5
+[2025-11-27 22:01:29] [INFO ] Received message type 501 from fd=7
+[2025-11-27 22:01:29] [INFO ] Received message type 103 from fd=7
+[2025-11-27 22:01:29] [INFO ] User logged out: fd=7
+[2025-11-27 22:01:29] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:02:41] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:02:41] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:02:41] [INFO ] User created: testuser1
+[2025-11-27 22:02:41] [INFO ] User registered: testuser1
+[2025-11-27 22:02:41] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:02:41] [INFO ] User created: testteacher
+[2025-11-27 22:02:41] [INFO ] User registered: testteacher
+[2025-11-27 22:02:41] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:02:41] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:02:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:02:41] [INFO ] User logged in: testuser1
+[2025-11-27 22:02:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:02:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:02:41] [INFO ] User logged in: testuser1
+[2025-11-27 22:02:41] [INFO ] Received message type 201 from fd=7
+[2025-11-27 22:02:41] [INFO ] Practice questions sent to user 6
+[2025-11-27 22:02:41] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:07:55] [INFO ] Received signal 2, shutting down...
+[2025-11-27 22:07:55] [INFO ] Server stopped
+[2025-11-27 22:08:15] [INFO ] === Server Starting ===
+[2025-11-27 22:08:15] [INFO ] Initializing database...
+[2025-11-27 22:08:15] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 22:08:15] [INFO ] Found schema file: ../database/schema.sql
+[2025-11-27 22:08:15] [INFO ] Database schema initialized
+[2025-11-27 22:08:15] [INFO ] Database initialized successfully
+[2025-11-27 22:08:15] [INFO ] Creating server on port 8888...
+[2025-11-27 22:08:15] [INFO ] Starting server...
+[2025-11-27 22:08:15] [INFO ] Server listening on port 8888
+[2025-11-27 22:08:15] [INFO ] Epoll initialized
+[2025-11-27 22:08:15] [INFO ] Server started successfully
+[2025-11-27 22:08:41] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:08:41] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:08:41] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:08:41] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:08:41] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:08:41] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:08:41] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:08:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:08:41] [INFO ] User logged in: testuser1
+[2025-11-27 22:08:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:08:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:08:41] [INFO ] User logged in: testuser1
+[2025-11-27 22:08:41] [INFO ] Received message type 201 from fd=7
+[2025-11-27 22:08:41] [INFO ] Practice questions sent to user 6
+[2025-11-27 22:08:41] [INFO ] Received message type 202 from fd=7
+[2025-11-27 22:08:41] [INFO ] Practice submitted: user=6, score=1/5
+[2025-11-27 22:08:41] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:08:41] [INFO ] Room list sent to user 6
+[2025-11-27 22:08:41] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:08:41] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:08:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:08:41] [INFO ] User logged in: testteacher
+[2025-11-27 22:08:41] [INFO ] Received message type 302 from fd=7
+[2025-11-27 22:08:41] [INFO ] Room created: id=1, name=Test Room 1
+[2025-11-27 22:08:41] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:08:41] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:08:41] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:08:41] [INFO ] User logged in: testuser1
+[2025-11-27 22:08:41] [INFO ] Received message type 303 from fd=7
+[2025-11-27 22:08:41] [INFO ] User 6 joined room 1
+[2025-11-27 22:08:41] [INFO ] Received message type 501 from fd=7
+[2025-11-27 22:08:41] [INFO ] Received message type 103 from fd=7
+[2025-11-27 22:08:41] [ERROR] send() failed: Broken pipe
+[2025-11-27 22:08:41] [INFO ] User logged out: fd=7
+[2025-11-27 22:08:41] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:11:01] [INFO ] Received signal 2, shutting down...
+[2025-11-27 22:11:01] [INFO ] Server stopped
+[2025-11-27 22:11:02] [INFO ] === Server Starting ===
+[2025-11-27 22:11:02] [INFO ] Initializing database...
+[2025-11-27 22:11:02] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 22:11:02] [INFO ] Found schema file: ../database/schema.sql
+[2025-11-27 22:11:02] [INFO ] Database schema initialized
+[2025-11-27 22:11:02] [INFO ] Database initialized successfully
+[2025-11-27 22:11:02] [INFO ] Creating server on port 8888...
+[2025-11-27 22:11:02] [INFO ] Starting server...
+[2025-11-27 22:11:02] [INFO ] Server listening on port 8888
+[2025-11-27 22:11:02] [INFO ] Epoll initialized
+[2025-11-27 22:11:02] [INFO ] Server started successfully
+[2025-11-27 22:11:05] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:11:05] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:11:05] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:11:05] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:11:05] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:11:05] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:11:05] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:11:05] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:11:05] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:11:05] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:11:05] [INFO ] User logged in: testuser1
+[2025-11-27 22:11:05] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:11:05] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:11:05] [INFO ] User logged in: testuser1
+[2025-11-27 22:11:05] [INFO ] Received message type 201 from fd=7
+[2025-11-27 22:11:05] [INFO ] Practice questions sent to user 6
+[2025-11-27 22:11:05] [INFO ] Received message type 202 from fd=7
+[2025-11-27 22:11:05] [INFO ] Practice submitted: user=6, score=1/5
+[2025-11-27 22:11:05] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:11:05] [INFO ] Room list sent to user 6
+[2025-11-27 22:11:05] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:11:05] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:11:05] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:11:05] [INFO ] User logged in: testteacher
+[2025-11-27 22:11:05] [INFO ] Received message type 302 from fd=7
+[2025-11-27 22:11:05] [INFO ] Room created: id=2, name=Test Room 1
+[2025-11-27 22:11:05] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:11:05] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:11:05] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:11:05] [INFO ] User logged in: testuser1
+[2025-11-27 22:11:05] [INFO ] Received message type 303 from fd=7
+[2025-11-27 22:11:05] [INFO ] User 6 joined room 2
+[2025-11-27 22:11:05] [INFO ] Received message type 501 from fd=7
+[2025-11-27 22:11:05] [INFO ] Received message type 103 from fd=7
+[2025-11-27 22:11:05] [ERROR] send() failed: Broken pipe
+[2025-11-27 22:11:05] [INFO ] User logged out: fd=7
+[2025-11-27 22:11:05] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:13:09] [INFO ] Received signal 2, shutting down...
+[2025-11-27 22:13:09] [INFO ] Server stopped
+[2025-11-27 22:13:10] [INFO ] === Server Starting ===
+[2025-11-27 22:13:10] [INFO ] Initializing database...
+[2025-11-27 22:13:10] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 22:13:10] [INFO ] Found schema file: ../database/schema.sql
+[2025-11-27 22:13:10] [INFO ] Database schema initialized
+[2025-11-27 22:13:10] [INFO ] Database initialized successfully
+[2025-11-27 22:13:10] [INFO ] Creating server on port 8888...
+[2025-11-27 22:13:10] [INFO ] Starting server...
+[2025-11-27 22:13:10] [INFO ] Server listening on port 8888
+[2025-11-27 22:13:10] [INFO ] Epoll initialized
+[2025-11-27 22:13:10] [INFO ] Server started successfully
+[2025-11-27 22:13:16] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:13:16] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:13:16] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:13:16] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:13:16] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:13:16] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:13:16] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:13:16] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:13:16] [INFO ] User logged in: testuser1
+[2025-11-27 22:13:16] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:13:16] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:13:16] [INFO ] User logged in: testuser1
+[2025-11-27 22:13:16] [INFO ] Received message type 201 from fd=7
+[2025-11-27 22:13:16] [INFO ] Practice questions sent to user 6
+[2025-11-27 22:13:16] [INFO ] Received message type 202 from fd=7
+[2025-11-27 22:13:16] [INFO ] Practice submitted: user=6, score=2/5
+[2025-11-27 22:13:16] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:13:16] [INFO ] Room list sent to user 6
+[2025-11-27 22:13:16] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:13:16] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:13:16] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:13:16] [INFO ] User logged in: testteacher
+[2025-11-27 22:13:16] [INFO ] Received message type 302 from fd=7
+[2025-11-27 22:13:16] [INFO ] Room created: id=3, name=Test Room 1
+[2025-11-27 22:13:16] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:13:16] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:13:16] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:13:16] [INFO ] User logged in: testuser1
+[2025-11-27 22:13:16] [INFO ] Received message type 303 from fd=7
+[2025-11-27 22:13:16] [INFO ] User 6 joined room 3
+[2025-11-27 22:13:16] [INFO ] Received message type 501 from fd=7
+[2025-11-27 22:13:16] [INFO ] Received message type 103 from fd=7
+[2025-11-27 22:13:16] [INFO ] User logged out: fd=7
+[2025-11-27 22:13:16] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:14:52] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:14:52] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:14:52] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:14:52] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:14:52] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:14:52] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:14:52] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:14:52] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:14:52] [INFO ] User logged in: testuser1
+[2025-11-27 22:14:52] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:14:52] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:14:52] [INFO ] User logged in: testuser1
+[2025-11-27 22:14:52] [INFO ] Received message type 201 from fd=7
+[2025-11-27 22:14:52] [INFO ] Practice questions sent to user 6
+[2025-11-27 22:14:52] [INFO ] Received message type 202 from fd=7
+[2025-11-27 22:14:52] [INFO ] Practice submitted: user=6, score=2/5
+[2025-11-27 22:14:52] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:14:52] [INFO ] Room list sent to user 6
+[2025-11-27 22:14:52] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:14:52] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:14:52] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:14:52] [INFO ] User logged in: testteacher
+[2025-11-27 22:14:52] [INFO ] Received message type 302 from fd=7
+[2025-11-27 22:14:52] [INFO ] Room created: id=4, name=Test Room 1
+[2025-11-27 22:14:52] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:14:52] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:14:52] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:14:52] [INFO ] User logged in: testuser1
+[2025-11-27 22:14:52] [INFO ] Received message type 303 from fd=7
+[2025-11-27 22:14:52] [INFO ] User 6 joined room 4
+[2025-11-27 22:14:52] [INFO ] Received message type 501 from fd=7
+[2025-11-27 22:14:53] [INFO ] Received message type 103 from fd=7
+[2025-11-27 22:14:53] [INFO ] User logged out: fd=7
+[2025-11-27 22:14:53] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:48:48] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:48:48] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:48:48] [INFO ] User created: multitest1
+[2025-11-27 22:48:48] [INFO ] User registered: multitest1
+[2025-11-27 22:48:48] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:48:48] [INFO ] User logged in: multitest1
+[2025-11-27 22:48:53] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:48:53] [ERROR] send() failed: Broken pipe
+[2025-11-27 22:48:53] [INFO ] New connection accepted: fd=8
+[2025-11-27 22:48:53] [INFO ] Client disconnected: fd=7
+[2025-11-27 22:48:53] [INFO ] Received message type 101 from fd=8
+[2025-11-27 22:48:53] [INFO ] User created: multitest2
+[2025-11-27 22:48:53] [INFO ] User registered: multitest2
+[2025-11-27 22:48:53] [INFO ] Received message type 102 from fd=8
+[2025-11-27 22:48:53] [INFO ] User logged in: multitest2
+[2025-11-27 22:48:53] [INFO ] Received message type 301 from fd=8
+[2025-11-27 22:48:53] [INFO ] Room list sent to user 9
+[2025-11-27 22:48:53] [INFO ] Client disconnected: fd=8
+[2025-11-27 22:48:54] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:48:54] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:48:54] [INFO ] User created: bursttest
+[2025-11-27 22:48:54] [INFO ] User registered: bursttest
+[2025-11-27 22:48:54] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:48:54] [INFO ] User logged in: bursttest
+[2025-11-27 22:48:54] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:48:54] [INFO ] Room list sent to user 10
+[2025-11-27 22:48:54] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:48:54] [INFO ] Room list sent to user 10
+[2025-11-27 22:48:59] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:48:59] [ERROR] send() failed: Broken pipe
+[2025-11-27 22:48:59] [INFO ] Room list sent to user 10
+[2025-11-27 22:48:59] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:48:59] [ERROR] send() failed: Broken pipe
+[2025-11-27 22:48:59] [INFO ] Room list sent to user 10
+[2025-11-27 22:48:59] [INFO ] New connection accepted: fd=8
+[2025-11-27 22:48:59] [INFO ] Received message type 101 from fd=8
+[2025-11-27 22:48:59] [INFO ] User created: mixedtest
+[2025-11-27 22:49:00] [INFO ] User registered: mixedtest
+[2025-11-27 22:49:00] [INFO ] Received message type 102 from fd=8
+[2025-11-27 22:49:00] [INFO ] User logged in: mixedtest
+[2025-11-27 22:49:00] [INFO ] Client disconnected: fd=8
+[2025-11-27 22:49:19] [INFO ] Received signal 2, shutting down...
+[2025-11-27 22:49:19] [INFO ] Server stopped
+[2025-11-27 22:49:23] [INFO ] === Server Starting ===
+[2025-11-27 22:49:23] [INFO ] Initializing database...
+[2025-11-27 22:49:23] [INFO ] Database opened successfully: testing_app.db
+[2025-11-27 22:49:23] [INFO ] Found schema file: ../database/schema.sql
+[2025-11-27 22:49:23] [INFO ] Database schema initialized
+[2025-11-27 22:49:23] [INFO ] Database initialized successfully
+[2025-11-27 22:49:23] [INFO ] Creating server on port 8888...
+[2025-11-27 22:49:23] [INFO ] Starting server...
+[2025-11-27 22:49:23] [INFO ] Server listening on port 8888
+[2025-11-27 22:49:23] [INFO ] Epoll initialized
+[2025-11-27 22:49:23] [INFO ] Server started successfully
+[2025-11-27 22:49:33] [INFO ] New connection accepted: fd=7
+[2025-11-27 22:49:33] [INFO ] Received message type 101 from fd=7
+[2025-11-27 22:49:33] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:49:33] [INFO ] Received message type 102 from fd=7
+[2025-11-27 22:49:33] [INFO ] User logged in: multitest1
+[2025-11-27 22:49:33] [INFO ] Received message type 301 from fd=7
+[2025-11-27 22:49:33] [INFO ] New connection accepted: fd=8
+[2025-11-27 22:49:33] [INFO ] Received message type 101 from fd=8
+[2025-11-27 22:49:33] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:49:33] [INFO ] Received message type 102 from fd=8
+[2025-11-27 22:49:33] [INFO ] User logged in: multitest2
+[2025-11-27 22:49:33] [INFO ] Received message type 301 from fd=8
+[2025-11-27 22:49:33] [INFO ] Room list sent to user 9
+[2025-11-27 22:49:34] [INFO ] New connection accepted: fd=9
+[2025-11-27 22:49:34] [INFO ] Received message type 101 from fd=9
+[2025-11-27 22:49:34] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:49:34] [INFO ] Received message type 102 from fd=9
+[2025-11-27 22:49:34] [INFO ] User logged in: bursttest
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] Received message type 301 from fd=9
+[2025-11-27 22:49:34] [INFO ] Room list sent to user 10
+[2025-11-27 22:49:34] [INFO ] New connection accepted: fd=10
+[2025-11-27 22:49:34] [INFO ] Received message type 101 from fd=10
+[2025-11-27 22:49:34] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:49:34] [INFO ] Received message type 102 from fd=10
+[2025-11-27 22:49:34] [INFO ] User logged in: mixedtest
+[2025-11-27 22:52:29] [INFO ] New connection accepted: fd=11
+[2025-11-27 22:52:29] [INFO ] Received message type 101 from fd=11
+[2025-11-27 22:52:29] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:29] [INFO ] Received message type 102 from fd=11
+[2025-11-27 22:52:29] [INFO ] User logged in: multitest1
+[2025-11-27 22:52:29] [INFO ] Received message type 301 from fd=11
+[2025-11-27 22:52:29] [INFO ] Client disconnected: fd=11
+[2025-11-27 22:52:29] [INFO ] New connection accepted: fd=11
+[2025-11-27 22:52:29] [INFO ] Received message type 101 from fd=11
+[2025-11-27 22:52:29] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:29] [INFO ] Received message type 102 from fd=11
+[2025-11-27 22:52:29] [INFO ] User logged in: multitest2
+[2025-11-27 22:52:29] [INFO ] Received message type 301 from fd=11
+[2025-11-27 22:52:29] [INFO ] Room list sent to user 9
+[2025-11-27 22:52:30] [INFO ] New connection accepted: fd=12
+[2025-11-27 22:52:30] [INFO ] Received message type 101 from fd=12
+[2025-11-27 22:52:30] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:30] [INFO ] Received message type 102 from fd=12
+[2025-11-27 22:52:30] [INFO ] User logged in: bursttest
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:30] [INFO ] Received message type 301 from fd=12
+[2025-11-27 22:52:30] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:31] [INFO ] New connection accepted: fd=13
+[2025-11-27 22:52:31] [INFO ] Received message type 101 from fd=13
+[2025-11-27 22:52:31] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:31] [INFO ] Received message type 102 from fd=13
+[2025-11-27 22:52:31] [INFO ] User logged in: mixedtest
+[2025-11-27 22:52:31] [INFO ] Received message type 201 from fd=13
+[2025-11-27 22:52:31] [INFO ] Practice questions sent to user 11
+[2025-11-27 22:52:31] [INFO ] Received message type 301 from fd=13
+[2025-11-27 22:52:31] [INFO ] Room list sent to user 11
+[2025-11-27 22:52:31] [INFO ] Received message type 501 from fd=13
+[2025-11-27 22:52:43] [INFO ] New connection accepted: fd=14
+[2025-11-27 22:52:43] [INFO ] Received message type 101 from fd=14
+[2025-11-27 22:52:43] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:43] [INFO ] Received message type 102 from fd=14
+[2025-11-27 22:52:43] [INFO ] User logged in: multitest1
+[2025-11-27 22:52:43] [INFO ] Received message type 301 from fd=14
+[2025-11-27 22:52:43] [INFO ] New connection accepted: fd=15
+[2025-11-27 22:52:43] [INFO ] Received message type 101 from fd=15
+[2025-11-27 22:52:43] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:43] [INFO ] Received message type 102 from fd=15
+[2025-11-27 22:52:43] [INFO ] User logged in: multitest2
+[2025-11-27 22:52:43] [INFO ] Received message type 301 from fd=15
+[2025-11-27 22:52:43] [INFO ] Room list sent to user 9
+[2025-11-27 22:52:44] [INFO ] New connection accepted: fd=16
+[2025-11-27 22:52:44] [INFO ] Received message type 101 from fd=16
+[2025-11-27 22:52:44] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:44] [INFO ] Received message type 102 from fd=16
+[2025-11-27 22:52:44] [INFO ] User logged in: bursttest
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] Received message type 301 from fd=16
+[2025-11-27 22:52:44] [INFO ] Room list sent to user 10
+[2025-11-27 22:52:44] [INFO ] New connection accepted: fd=17
+[2025-11-27 22:52:44] [INFO ] Received message type 101 from fd=17
+[2025-11-27 22:52:44] [ERROR] Failed to create user: UNIQUE constraint failed: Users.username
+[2025-11-27 22:52:44] [INFO ] Received message type 102 from fd=17
+[2025-11-27 22:52:44] [INFO ] User logged in: mixedtest
+[2025-11-27 22:52:44] [INFO ] Received message type 201 from fd=17
+[2025-11-27 22:52:45] [INFO ] Practice questions sent to user 11
+[2025-11-27 22:52:45] [INFO ] Received message type 301 from fd=17
+[2025-11-27 22:52:45] [INFO ] Room list sent to user 11
+[2025-11-27 22:52:45] [INFO ] Received message type 501 from fd=17
+[2025-11-27 22:57:38] [INFO ] Received signal 2, shutting down...
+[2025-11-27 22:57:38] [INFO ] Server stopped
