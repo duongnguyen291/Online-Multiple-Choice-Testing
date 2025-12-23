@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Thi Trắc Nghiệm Online</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <!-- ==================== AUTH PAGES (Login/Register) ==================== -->
+    <div id="auth-container" class="auth-container">
+        <!-- LOGIN PAGE -->
+        <div id="page-login" class="auth-page active">
+            <div class="auth-card">
+                <h2>Đăng Nhập</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Tên Tài Khoản:</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mật Khẩu:</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
+                    <p class="auth-switch">
+                        Chưa có tài khoản? <a href="#" id="show-register">Đăng ký ngay</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- REGISTER PAGE -->
+        <div id="page-register" class="auth-page">
+            <div class="auth-card">
+                <h2>Đăng Ký Tài Khoản</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-username">Tên Tài Khoản:</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Mật Khẩu:</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm">Xác Nhận Mật Khẩu:</label>
+                        <input type="password" id="register-confirm" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-role">Vai Trò:</label>
+                        <select id="register-role" required>
+                            <option value="USER">Học Viên</option>
+                            <option value="TEACHER">Giáo Viên</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Đăng Ký</button>
+                    <p class="auth-switch">
+                        Đã có tài khoản? <a href="#" id="show-login">Đăng nhập</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MAIN APP (Dashboard with Sidebar) ==================== -->
+    <div id="app-container" class="app-container" style="display: none;">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 Hệ Thống Thi</h2>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="user-avatar">👤</div>
+                <div class="user-details">
+                    <div class="user-name" id="sidebar-username">User</div>
+                    <div class="user-role" id="sidebar-role">Học viên</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <!-- Student Menu -->
+                <div id="student-menu">
+                    <a href="#" class="nav-item active" data-page="statistics">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Thống Kê</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="practice">
+                        <span class="nav-icon">✏️</span>
+                        <span class="nav-text">Luyện Tập</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="test-rooms">
+                        <span class="nav-icon">🏆</span>
+                        <span class="nav-text">Phòng Thi</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="history">
+                        <span class="nav-icon">📜</span>
+                        <span class="nav-text">Lịch Sử</span>
+                    </a>
+                </div>
+
+                <!-- Teacher Menu -->
+                <div id="teacher-menu" style="display: none;">
+                    <a href="#" class="nav-item active" data-page="statistics">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Thống Kê</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="questions">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text">Quản Lý Câu Hỏi</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="test-rooms">
+                        <span class="nav-icon">🏆</span>
+                        <span class="nav-text">Quản Lý Phòng Thi</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="practice">
+                        <span class="nav-icon">✏️</span>
+                        <span class="nav-text">Luyện Tập</span>
+                    </a>
+                    <a href="#" class="nav-item" data-page="history">
+                        <span class="nav-icon">📜</span>
+                        <span class="nav-text">Lịch Sử</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-logout" id="btn-logout">
+                    <span>🚪</span> Đăng Xuất
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <h1 id="page-title">Thống Kê</h1>
+                <div class="topbar-actions">
+                    <span id="connection-status" class="status-badge">🟢 Đã kết nối</span>
+                </div>
+            </header>
+
+            <!-- Content Container -->
+            <div class="content-wrapper">
+                
+                <!-- ==================== STATISTICS PAGE ==================== -->
+                <section id="content-statistics" class="content-page active">
+                    <div class="stats-overview">
+                        <div class="stat-card">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="total-tests">0</div>
+                                <div class="stat-label">Bài Thi Đã Làm</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="avg-score">0%</div>
+                                <div class="stat-label">Điểm Trung Bình</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="best-score">0%</div>
+                                <div class="stat-label">Điểm Cao Nhất</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="total-time">0</div>
+                                <div class="stat-label">Tổng Thời Gian (phút)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Biểu Đồ Thống Kê</h3>
+                        <canvas id="stats-chart"></canvas>
+                    </div>
+                </section>
+
+                <!-- ==================== QUESTIONS MANAGEMENT (TEACHER ONLY) ==================== -->
+                <section id="content-questions" class="content-page">
+                    <div class="page-header">
+                        <h2>Quản Lý Câu Hỏi</h2>
+                        <button class="btn btn-primary" id="btn-add-question">
+                            ➕ Thêm Câu Hỏi Mới
+                        </button>
+                    </div>
+
+                    <div class="filters">
+                        <input type="text" id="search-questions" placeholder="🔍 Tìm kiếm câu hỏi..." class="search-input">
+                        <select id="filter-subject" class="filter-select">
+                            <option value="">Tất cả môn học</option>
+                            <option value="Toán">Toán</option>
+                            <option value="Lý">Lý</option>
+                            <option value="Hóa">Hóa</option>
+                            <option value="Anh">Anh</option>
+                            <option value="Văn">Văn</option>
+                        </select>
+                        <select id="filter-difficulty" class="filter-select">
+                            <option value="">Tất cả độ khó</option>
+                            <option value="EASY">Dễ</option>
+                            <option value="MEDIUM">Trung bình</option>
+                            <option value="HARD">Khó</option>
+                        </select>
+                    </div>
+
+                    <div id="questions-list" class="questions-list">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Question Form Modal -->
+                <div id="modal-question-form" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 id="question-form-title">Thêm Câu Hỏi Mới</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="question-form">
+                            <input type="hidden" id="question-id">
+                            <div class="form-group">
+                                <label for="question-subject">Môn Học:</label>
+                                <select id="question-subject" required>
+                                    <option value="">-- Chọn môn --</option>
+                                    <option value="Toán">Toán</option>
+                                    <option value="Lý">Lý</option>
+                                    <option value="Hóa">Hóa</option>
+                                    <option value="Anh">Anh</option>
+                                    <option value="Văn">Văn</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="question-difficulty">Độ Khó:</label>
+                                <select id="question-difficulty" required>
+                                    <option value="EASY">Dễ</option>
+                                    <option value="MEDIUM">Trung bình</option>
+                                    <option value="HARD">Khó</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="question-text">Câu Hỏi:</label>
+                                <textarea id="question-text" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="option-a">Đáp Án A:</label>
+                                <input type="text" id="option-a" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="option-b">Đáp Án B:</label>
+                                <input type="text" id="option-b" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="option-c">Đáp Án C:</label>
+                                <input type="text" id="option-c" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="option-d">Đáp Án D:</label>
+                                <input type="text" id="option-d" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="correct-answer">Đáp Án Đúng:</label>
+                                <select id="correct-answer" required>
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="D">D</option>
+                                </select>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="button" class="btn btn-secondary modal-close">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- ==================== PRACTICE PAGE ==================== -->
+                <section id="content-practice" class="content-page">
+                    <div id="practice-setup">
+                        <h2>Cài Đặt Bài Luyện Tập</h2>
+                        <form id="practice-setup-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="practice-subject">Môn Học:</label>
+                                    <select id="practice-subject" required>
+                                        <option value="">-- Chọn môn --</option>
+                                        <option value="Toán">Toán</option>
+                                        <option value="Lý">Lý</option>
+                                        <option value="Hóa">Hóa</option>
+                                        <option value="Anh">Anh</option>
+                                        <option value="Văn">Văn</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="practice-difficulty">Độ Khó:</label>
+                                    <select id="practice-difficulty" required>
+                                        <option value="EASY">Dễ</option>
+                                        <option value="MEDIUM">Trung bình</option>
+                                        <option value="HARD">Khó</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="practice-count">Số Câu:</label>
+                                    <input type="number" id="practice-count" min="5" max="50" value="10" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Bắt Đầu Luyện Tập</button>
+                        </form>
+                    </div>
+
+                    <div id="practice-exam" style="display: none;">
+                        <div class="exam-header">
+                            <h2>Bài Luyện Tập</h2>
+                            <div class="timer">⏱️ <span id="practice-timer">00:00</span></div>
+                        </div>
+                        <div id="practice-questions-container"></div>
+                        <button class="btn btn-primary btn-block" id="btn-submit-practice">Nộp Bài</button>
+                    </div>
+
+                    <div id="practice-result" style="display: none;">
+                        <h2>Kết Quả Luyện Tập</h2>
+                        <div class="result-summary">
+                            <div class="result-item">
+                                <span>Điểm số:</span>
+                                <strong id="practice-score"></strong>
+                            </div>
+                            <div class="result-item">
+                                <span>Số câu đúng:</span>
+                                <strong id="practice-correct"></strong>
+                            </div>
+                            <div class="result-item">
+                                <span>Thời gian:</span>
+                                <strong id="practice-time"></strong>
+                            </div>
+                        </div>
+                        <div id="practice-review"></div>
+                        <button class="btn btn-primary" id="btn-practice-again">Luyện Tập Lại</button>
+                    </div>
+                </section>
+
+                <!-- ==================== TEST ROOMS PAGE ==================== -->
+                <section id="content-test-rooms" class="content-page">
+                    <div class="page-header">
+                        <h2>Phòng Thi</h2>
+                        <button class="btn btn-primary" id="btn-create-room">➕ Tạo Phòng Thi</button>
+                    </div>
+                    <div id="rooms-list" class="rooms-grid">
+                        <!-- Rooms will be loaded here -->
+                    </div>
+                </section>
+
+                <!-- Create Room Modal -->
+                <div id="modal-create-room" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Tạo Phòng Thi Mới</h3>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <form id="create-room-form">
+                            <div class="form-group">
+                                <label for="room-name">Tên Phòng:</label>
+                                <input type="text" id="room-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="room-subject">Môn Học:</label>
+                                <select id="room-subject" required>
+                                    <option value="Toán">Toán</option>
+                                    <option value="Lý">Lý</option>
+                                    <option value="Hóa">Hóa</option>
+                                    <option value="Anh">Anh</option>
+                                    <option value="Văn">Văn</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="room-question-count">Số Câu:</label>
+                                    <input type="number" id="room-question-count" min="5" max="50" value="20" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="room-duration">Thời Gian (phút):</label>
+                                    <input type="number" id="room-duration" min="10" max="180" value="45" required>
+                                </div>
+                            </div>
+                            <div class="modal-actions">
+                                <button type="button" class="btn btn-secondary modal-close">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Tạo Phòng</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Waiting Room -->
+                <div id="waiting-room" style="display: none;">
+                    <h2>Phòng Chờ: <span id="waiting-room-name"></span></h2>
+                    <div class="participants">
+                        <h3>Người tham gia:</h3>
+                        <div id="participants-list"></div>
+                    </div>
+                    <div id="owner-controls" style="display: none;">
+                        <button class="btn btn-success" id="btn-start-test">Bắt Đầu Thi</button>
+                    </div>
+                    <button class="btn btn-secondary" id="btn-leave-room">Rời Phòng</button>
+                </div>
+
+                <!-- Test Exam -->
+                <div id="test-exam" style="display: none;">
+                    <div class="exam-header">
+                        <h2 id="test-room-name"></h2>
+                        <div class="timer">⏱️ <span id="test-timer">00:00</span></div>
+                    </div>
+                    <div id="test-questions-container"></div>
+                    <button class="btn btn-primary btn-block" id="btn-submit-test">Nộp Bài</button>
+                </div>
+
+                <!-- ==================== HISTORY PAGE ==================== -->
+                <section id="content-history" class="content-page">
+                    <h2>Lịch Sử Làm Bài</h2>
+                    <div class="table-container">
+                        <table id="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Thời Gian</th>
+                                    <th>Môn Học</th>
+                                    <th>Loại</th>
+                                    <th>Số Câu</th>
+                                    <th>Đúng</th>
+                                    <th>Điểm</th>
+                                    <th>Thời Gian</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody">
+                                <!-- History rows will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Scripts -->
+    <script src="js/protocol.js"></script>
+    <script src="js/websocket-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

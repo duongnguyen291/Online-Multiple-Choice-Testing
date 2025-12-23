@@ -82,22 +82,77 @@
 
 ---
 
-## 🚧 Đang Làm / Chưa Làm
+### Phase 1.5: WebSocket Gateway (100%)
+- ✅ **WebSocket Server**: Implement hoàn chỉnh
+  - File: `gateway/src/websocket_gateway.cpp`
+  - HTTP upgrade handshake (RFC 6455)
+  - WebSocket frame parsing & encoding
+- ✅ **Protocol Bridge**: WebSocket ↔ TCP protocol conversion
+  - JSON từ WebSocket → [Type][Length][JSON] cho TCP
+  - [Type][Length][JSON] từ TCP → JSON cho WebSocket
+- ✅ **Connection Management**:
+  - Map WebSocket connection ↔ TCP backend connection
+  - Epoll-based multiplexing
+  - Auto-reconnect logic
+- ✅ **Deliverables**:
+  - `gateway/` folder đầy đủ
+  - Makefile, main.cpp
+  - README.md với usage guide
 
-### Phase 1.5: WebSocket Gateway (0%)
-- ❌ **WebSocket Server**: Chưa implement
-- ❌ **Protocol Bridge**: WebSocket ↔ TCP protocol conversion
-- ❌ **Connection Management**: WebSocket session ↔ TCP socket mapping
-- **Cần thiết cho**: Web frontend
+### Phase 7: Web Frontend (100%)
+- ✅ **WebSocket Client**: JavaScript handler hoàn chỉnh
+  - File: `client/js/websocket-client.js`
+  - Auto-reconnect, session management
+  - Event-based message handling
+- ✅ **HTML/CSS Structure**: Pages và UI components
+  - File: `client/index.html`, `client/css/main.css`
+  - Single Page Application (SPA)
+  - Responsive design, mobile-friendly
+- ✅ **Authentication UI**: Login, Register pages
+  - Username/password form
+  - Role selection (USER/TEACHER)
+  - Session persistence
+- ✅ **Dashboard**: Main page sau login
+  - User info display
+  - Menu navigation
+  - Role-based UI (TEACHER only menus)
+- ✅ **Practice Mode UI**: Practice setup, exam, result pages
+  - Setup form (num_questions, topic, difficulty)
+  - Exam page với timer countdown
+  - Result display (correct_count/total)
+- ✅ **Test Mode UI**: Room list, create room, waiting room, exam
+  - Room list table với status
+  - Create room form (TEACHER only)
+  - Waiting room với participants list
+  - Exam page tương tự practice mode
+- ✅ **History & Statistics UI**: History table, charts
+  - History table
+  - Chart.js integration
+  - Score over time & topic distribution charts
+- ✅ **Real-time Updates**:
+  - Push notification handling
+  - S2C_USER_JOINED_ROOM, S2C_TEST_STARTED, etc.
+  - Auto-refresh room status
 
-### Phase 7: Web Frontend (0%)
-- ❌ **WebSocket Client**: JavaScript WebSocket connection
-- ❌ **HTML/CSS Structure**: Pages và UI components
-- ❌ **Authentication UI**: Login, Register pages
-- ❌ **Dashboard**: Main page sau login
-- ❌ **Practice Mode UI**: Practice setup, exam, result pages
-- ❌ **Test Mode UI**: Room list, create room, waiting room, exam, result pages
-- ❌ **History & Statistics UI**: History table, charts (Chart.js)
+### Deliverables Phase 7:
+- ✅ `client/` folder đầy đủ
+- ✅ `client/index.html` - SPA
+- ✅ `client/js/` - Protocol, WebSocket, Auth, Main
+- ✅ `client/css/main.css` - Styling
+- ✅ `client/README.md` - Documentation
+
+---
+
+## 🚧 Hoàn Thành Toàn Bộ (98%)
+
+### Còn Lại:
+- ⚠️ **Build & Test**: Chưa build gateway, chưa test integration
+- ⚠️ **Documentation**: Update main README.md
+
+### Tiếp Theo:
+- Build gateway: `cd gateway && make`
+- Test integration: `make test`
+- Deploy: `make run` hoặc `make run-simple`
 - ❌ **Real-time Updates**: WebSocket event listeners
 
 ### Phase 8: Logging & Error Handling (70%)

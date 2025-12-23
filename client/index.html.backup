@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Thi Trắc Nghiệm Online</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Chart.js for statistics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body>
+    <!-- Auth Container (Login/Register) -->
+    <div id="auth-container" class="auth-container">
+        <!-- LOGIN PAGE -->
+        <div id="page-login" class="page">
+            <form>
+                <h2>Đăng Nhập</h2>
+                
+                <div class="form-group">
+                    <label for="login-username">Tên Tài Khoản:</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Mật Khẩu:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                    Đăng Nhập
+                </button>
+                
+                <p style="text-align: center; color: var(--text-muted);">
+                    Chưa có tài khoản? <a href="#" class="register-link" style="color: var(--primary-color); text-decoration: underline;">Đăng ký ngay</a>
+                </p>
+            </form>
+        </div>
+        
+        <!-- REGISTER PAGE -->
+        <div id="page-register" class="page">
+            <form>
+                <h2>Đăng Ký Tài Khoản</h2>
+                
+                <div class="form-group">
+                    <label for="register-username">Tên Tài Khoản:</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Mật Khẩu:</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-confirm-password">Xác Nhận Mật Khẩu:</label>
+                    <input type="password" id="register-confirm-password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-role">Vai Trò:</label>
+                    <select id="register-role">
+                        <option value="USER">Học Viên</option>
+                        <option value="TEACHER">Giáo Viên</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                    Đăng Ký
+                </button>
+                
+                <p style="text-align: center; color: var(--text-muted);">
+                    Đã có tài khoản? <a href="#" class="login-link" style="color: var(--primary-color); text-decoration: underline;">Đăng nhập</a>
+                </p>
+            </form>
+        </div>
+        
+        <!-- DASHBOARD PAGE -->
+        <div id="page-dashboard" class="page">
+            <h2>Trang Chủ</h2>
+            <p style="color: var(--text-muted);">Hãy chọn một chức năng bên dưới:</p>
+            
+            <div class="dashboard-menu">
+                <!-- Practice -->
+                <div class="menu-card" id="btn-practice">
+                    <h3>📝 Luyện Tập</h3>
+                    <p>Làm bài luyện tập với câu hỏi tùy chọn</p>
+                </div>
+                
+                <!-- Test Rooms -->
+                <div class="menu-card" id="btn-test-rooms">
+                    <h3>🎯 Phòng Thi</h3>
+                    <p>Xem và tham gia các phòng thi</p>
+                </div>
+                
+                <!-- Create Room (Teacher only) -->
+                <div class="menu-card menu-teacher" id="btn-create-room" style="display: none;">
+                    <h3>➕ Tạo Phòng Thi</h3>
+                    <p>Tạo một phòng thi mới</p>
+                </div>
+                
+                <!-- History -->
+                <div class="menu-card" id="btn-history">
+                    <h3>📚 Lịch Sử</h3>
+                    <p>Xem lịch sử các bài đã làm</p>
+                </div>
+                
+                <!-- Statistics -->
+                <div class="menu-card" id="btn-statistics">
+                    <h3>📊 Thống Kê</h3>
+                    <p>Xem thống kê điểm và thành tích</p>
+                </div>
+                
+                <!-- Logout -->
+                <div class="menu-card">
+                    <h3 id="btn-logout" style="cursor: pointer; color: var(--danger-color);">🚪 Đăng Xuất</h3>
+                    <p>Thoát khỏi tài khoản</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PRACTICE PAGE -->
+        <div id="page-practice" class="page">
+            <h2>Bài Luyện Tập</h2>
+            <form style="max-width: 600px;">
+                <div class="form-group">
+                    <label for="practice-num-questions">Số Câu Hỏi:</label>
+                    <input type="number" id="practice-num-questions" value="5" min="1" max="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="practice-topic">Chủ Đề:</label>
+                    <select id="practice-topic">
+                        <option value="all">Tất Cả</option>
+                        <option value="Toán">Toán</option>
+                        <option value="Lịch Sử">Lịch Sử</option>
+                        <option value="Địa Lý">Địa Lý</option>
+                        <option value="Khoa Học">Khoa Học</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="practice-difficulty">Độ Khó:</label>
+                    <select id="practice-difficulty">
+                        <option value="all">Tất Cả</option>
+                        <option value="easy">Dễ</option>
+                        <option value="medium">Trung Bình</option>
+                        <option value="hard">Khó</option>
+                    </select>
+                </div>
+                
+                <button type="button" id="btn-practice-start" class="btn btn-primary" style="width: 100%;">
+                    Bắt Đầu
+                </button>
+            </form>
+            
+            <button class="btn btn-back-dashboard" style="margin-top: 20px;">Quay Lại</button>
+        </div>
+        
+        <!-- TEST ROOMS PAGE -->
+        <div id="page-test-rooms" class="page">
+            <!-- Will be populated by JavaScript -->
+        </div>
+        
+        <!-- CREATE ROOM PAGE -->
+        <div id="page-create-room" class="page">
+            <h2>Tạo Phòng Thi Mới</h2>
+            <form style="max-width: 600px;">
+                <div class="form-group">
+                    <label for="room-name">Tên Phòng Thi:</label>
+                    <input type="text" id="room-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="room-num-questions">Số Câu Hỏi:</label>
+                    <input type="number" id="room-num-questions" value="20" min="1" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="room-duration-minutes">Thời Gian (phút):</label>
+                    <input type="number" id="room-duration-minutes" value="60" min="5" max="480">
+                </div>
+                
+                <div class="form-group">
+                    <label for="room-topic">Chủ Đề:</label>
+                    <select id="room-topic">
+                        <option value="all">Tất Cả</option>
+                        <option value="Toán">Toán</option>
+                        <option value="Lịch Sử">Lịch Sử</option>
+                        <option value="Địa Lý">Địa Lý</option>
+                        <option value="Khoa Học">Khoa Học</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="room-difficulty">Độ Khó:</label>
+                    <select id="room-difficulty">
+                        <option value="all">Tất Cả</option>
+                        <option value="easy">Dễ</option>
+                        <option value="medium">Trung Bình</option>
+                        <option value="hard">Khó</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                    Tạo Phòng
+                </button>
+                
+                <button type="button" class="btn btn-back-dashboard" style="width: 100%;">Quay Lại</button>
+            </form>
+        </div>
+        
+        <!-- HISTORY PAGE -->
+        <div id="page-history" class="page">
+            <!-- Will be populated by JavaScript -->
+        </div>
+        
+        <!-- STATISTICS PAGE -->
+        <div id="page-statistics" class="page">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/protocol.js"></script>
+    <script src="js/websocket-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

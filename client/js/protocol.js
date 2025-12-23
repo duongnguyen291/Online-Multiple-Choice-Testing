@@ -1,0 +1,75 @@
+/**
+ * Protocol Constants
+ * Message types and codes
+ */
+
+// Client to Server (C2S)
+const C2S_REGISTER = 101;
+const C2S_LOGIN = 102;
+const C2S_LOGOUT = 103;
+const C2S_PRACTICE_REQUEST = 201;
+const C2S_PRACTICE_SUBMIT = 202;
+const C2S_LIST_ROOMS = 301;
+const C2S_CREATE_ROOM = 302;
+const C2S_JOIN_ROOM = 303;
+const C2S_START_TEST = 401;
+const C2S_CHANGE_ANSWER = 402;
+const C2S_SUBMIT_TEST = 403;
+const C2S_GET_HISTORY = 501;
+const C2S_GET_STATS = 502;
+const C2S_VIEW_ROOM_RESULTS = 503;
+
+// Question Management (Teacher only)
+const C2S_LIST_QUESTIONS = 601;
+const C2S_CREATE_QUESTION = 602;
+const C2S_UPDATE_QUESTION = 603;
+const C2S_DELETE_QUESTION = 604;
+
+// Server to Client (S2C)
+const S2C_RESPONSE_OK = 801;
+const S2C_RESPONSE_ERROR = 802;
+const S2C_LOGIN_OK = 803;
+const S2C_PRACTICE_QUESTIONS = 901;
+const S2C_PRACTICE_RESULT = 902;
+const S2C_ROOM_LIST = 1001;
+const S2C_ROOM_CREATED = 1002;
+const S2C_JOIN_OK = 1003;
+const S2C_USER_JOINED_ROOM = 1004;
+const S2C_ROOM_STATUS_CHANGED = 1005;
+const S2C_TEST_STARTED = 1101;
+const S2C_TEST_ENDED = 1102;
+const S2C_YOUR_RESULT = 1103;
+const S2C_HISTORY_DATA = 1201;
+const S2C_STATS_DATA = 1202;
+const S2C_ROOM_RESULTS_DATA = 1203;
+
+// Question Management Responses
+const S2C_QUESTIONS_LIST = 1301;
+const S2C_QUESTION_CREATED = 1302;
+const S2C_QUESTION_UPDATED = 1303;
+const S2C_QUESTION_DELETED = 1304;
+
+// Error codes
+const ERR_LOGIN_FAILED = 1001;
+const ERR_USERNAME_EXISTS = 1002;
+const ERR_ROOM_NOT_FOUND = 2001;
+const ERR_ROOM_STARTED = 2002;
+const ERR_NOT_ROOM_OWNER = 2003;
+const ERR_INVALID_SESSION = 3001;
+const ERR_PERMISSION_DENIED = 3002;
+const ERR_QUESTION_NOT_FOUND = 4001;
+const ERR_SYSTEM_ERROR = 9999;
+
+// Room status
+const ROOM_STATUS_NOT_STARTED = 'NOT_STARTED';
+const ROOM_STATUS_ONGOING = 'ONGOING';
+const ROOM_STATUS_FINISHED = 'FINISHED';
+
+// Roles
+const ROLE_USER = 'USER';
+const ROLE_TEACHER = 'TEACHER';
+
+// Difficulty levels
+const DIFFICULTY_EASY = 'easy';
+const DIFFICULTY_MEDIUM = 'medium';
+const DIFFICULTY_HARD = 'hard';
