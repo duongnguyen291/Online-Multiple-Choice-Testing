@@ -93,6 +93,15 @@ public:
     bool get_question_by_id(int question_id, Question& question);
     std::vector<Question> get_random_questions(int count, const std::string& topic, const std::string& difficulty);
     
+    // New Question Management
+    bool create_question(const std::string& content, const json& options, const std::string& correct_option,
+                        const std::string& difficulty, const std::string& topic, int created_by, int& question_id);
+    bool update_question(int question_id, const std::string& content, const json& options, 
+                        const std::string& correct_option, const std::string& difficulty, const std::string& topic);
+    bool delete_question(int question_id);
+    std::vector<Question> get_questions_by_creator(int creator_id);
+    std::vector<Question> get_all_questions();
+    
     // Practice history operations
     bool save_practice_result(int user_id, int correct_count, int total_questions, 
                              const std::string& filters_json, float score_percentage);

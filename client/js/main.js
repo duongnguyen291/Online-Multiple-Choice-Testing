@@ -77,8 +77,16 @@ function onPageLoad(pageName) {
             loadStatistics();
             break;
         case 'questions':
+            console.log('onPageLoad: questions', window.questionsManager);
             if (window.questionsManager) {
-                questionsManager.loadQuestions();
+                window.questionsManager.loadQuestions();
+            } else {
+                console.error('questionsManager not initialized');
+                // Try to initialize if missing (fallback)
+                if (wsClient && typeof QuestionsManager !== 'undefined') {
+                    window.questionsManager = new QuestionsManager(wsClient);
+                    window.questionsManager.loadQuestions();
+                }
             }
             break;
         case 'practice':
@@ -107,8 +115,8 @@ async function initializeApp() {
     if (sessionToken && username && role) {
         // Already logged in, show dashboard
         currentUser = { username, role, sessionToken };
-        showDashboard();
         await connectWebSocket();
+        showDashboard();
     } else {
         // Show login page
         showAuthPages();
@@ -158,6 +166,9 @@ function showDashboard() {
 
     // Setup sidebar navigation
     setupSidebarNavigation();
+
+    // Setup room management (create room listeners)
+    setupRoomManagement();
 
     // Navigate to default page (statistics)
     navigateTo('statistics');
@@ -613,6 +624,52 @@ function handlePracticeResult(data) {
 function loadRoomList() {
     if (!wsClient) return;
     wsClient.send(C2S_LIST_ROOMS, {});
+}
+
+function setupRoomManagement() {
+    console.log('Setting up Room Management...');
+
+    const createBtn = document.getElementById('btn-create-room');
+    if (createBtn) {
+        createBtn.addEventListener('click', () => {
+            console.log('Create Room button clicked');
+            document.getElementById('modal-create-room').classList.add('active');
+        });
+    } else {
+        console.error('btn-create-room not found!');
+    }
+
+    // Close buttons for all modals
+    document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.remove('active');
+            });
+        });
+    });
+
+    // Handle create room form submit
+    document.getElementById('create-room-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('room-name').value;
+        const subject = document.getElementById('room-subject').value;
+        const count = parseInt(document.getElementById('room-question-count').value);
+        const duration = parseInt(document.getElementById('room-duration').value);
+
+        if (!wsClient) return;
+
+        // Note: Sending 'subject' which server will map to 'topic'
+        wsClient.send(C2S_CREATE_ROOM, {
+            name: name,
+            topic: subject,
+            num_questions: count,
+            duration_minutes: duration
+        });
+
+        // Close modal
+        document.getElementById('modal-create-room').classList.remove('active');
+    });
 }
 
 function handleRoomList(data) {

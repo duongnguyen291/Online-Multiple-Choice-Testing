@@ -12,7 +12,7 @@ class QuestionsManager {
             difficulty: ''
         };
         this.editingQuestion = null;
-        
+
         this.initEventListeners();
     }
 
@@ -95,13 +95,13 @@ class QuestionsManager {
                 q.option_b.toLowerCase().includes(this.currentFilter.search) ||
                 q.option_c.toLowerCase().includes(this.currentFilter.search) ||
                 q.option_d.toLowerCase().includes(this.currentFilter.search);
-            
+
             const matchSubject = !this.currentFilter.subject ||
                 q.subject === this.currentFilter.subject;
-            
+
             const matchDifficulty = !this.currentFilter.difficulty ||
                 q.difficulty === this.currentFilter.difficulty;
-            
+
             return matchSearch && matchSubject && matchDifficulty;
         });
 
@@ -155,7 +155,10 @@ class QuestionsManager {
         const map = {
             'EASY': 'Dễ',
             'MEDIUM': 'Trung bình',
-            'HARD': 'Khó'
+            'HARD': 'Khó',
+            'easy': 'Dễ',
+            'medium': 'Trung bình',
+            'hard': 'Khó'
         };
         return map[difficulty] || difficulty;
     }

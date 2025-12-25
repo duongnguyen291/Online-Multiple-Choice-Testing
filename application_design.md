@@ -507,6 +507,71 @@ Gửi bảng điểm của phòng thi đã kết thúc.
 { "room_id": 102, "room_name": "Thi cuối kỳ C++", "results": [ { "username": "user_b", "score": "48/50" } ] }
 
 
+3.6. Quản lý Ngân hàng Câu hỏi (Question Management)
+C2S_LIST_QUESTIONS (Mã: 601)
+Hướng: Client -> Server
+Mô tả: (Teacher) Lấy danh sách câu hỏi do mình tạo.
+Payload: { "session_token": "..." }
+
+S2C_QUESTIONS_LIST (Mã: 1301)
+Hướng: Server -> Client
+Mô tả: Trả về danh sách câu hỏi.
+Payload:
+{
+  "questions": [
+    {
+      "id": 10,
+      "content": "Câu hỏi demo",
+      "options": { "a": "A", "b": "B", "c": "C", "d": "D" },
+      "correct": "a",
+      "topic": "math",
+      "difficulty": "easy"
+    }
+  ]
+}
+
+C2S_CREATE_QUESTION (Mã: 602)
+Hướng: Client -> Server
+Mô tả: (Teacher) Thêm câu hỏi mới.
+Payload:
+{
+  "session_token": "...",
+  "content": "Nội dung câu hỏi...",
+  "options": { "a": "...", "b": "...", ... },
+  "correct": "a",
+  "topic": "history",
+  "difficulty": "medium"
+}
+
+S2C_QUESTION_CREATED (Mã: 1302)
+Hướng: Server -> Client
+Payload: { "question_id": 11, "message": "Question created successfully" }
+
+C2S_UPDATE_QUESTION (Mã: 603)
+Hướng: Client -> Server
+Mô tả: (Teacher) Cập nhật câu hỏi.
+Payload:
+{
+  "session_token": "...",
+  "question_id": 11,
+  "content": "Nội dung mới...",
+  "options": { ... },
+  "correct": "b",
+  "topic": "history",
+  "difficulty": "hard"
+}
+
+S2C_QUESTION_UPDATED (Mã: 1303)
+Payload: { "question_id": 11, "message": "Question updated successfully" }
+
+C2S_DELETE_QUESTION (Mã: 604)
+Hướng: Client -> Server
+Mô tả: (Teacher) Xóa câu hỏi.
+Payload: { "session_token": "...", "question_id": 11 }
+
+S2C_QUESTION_DELETED (Mã: 1304)
+Payload: { "question_id": 11, "message": "Question deleted successfully" }
+
 4. Trình tự Giao tiếp (Communication Flows)
 Flow 1: Đăng nhập & Lấy danh sách phòng
 Client --(C2S_LOGIN)--> Server

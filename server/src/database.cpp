@@ -348,6 +348,131 @@ bool Database::get_question_by_id(int question_id, Question& question) {
     return found;
 }
 
+bool Database::create_question(const std::string& content, const json& options, const std::string& correct_option,
+                              const std::string& difficulty, const std::string& topic, int created_by, int& question_id) {
+    const char* sql = "INSERT INTO Questions (content, options, correct_option, difficulty, topic, created_by) "
+                     "VALUES (?, ?, ?, ?, ?, ?);";
+    sqlite3_stmt* stmt;
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        LOG_ERROR("Failed to prepare create_question: " + std::string(sqlite3_errmsg(db)));
+        return false;
+    }
+    
+    std::string options_str = options.dump();
+    
+    sqlite3_bind_text(stmt, 1, content.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, options_str.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 3, correct_option.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 4, difficulty.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 5, topic.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt, 6, created_by);
+    
+    int result = sqlite3_step(stmt);
+    bool success = result == SQLITE_DONE;
+    
+    if (success) {
+        question_id = static_cast<int>(get_last_insert_rowid());
+    } else {
+        LOG_ERROR("create_question execution failed: " + std::string(sqlite3_errmsg(db)));
+    }
+    
+    sqlite3_finalize(stmt);
+    return success;
+}
+
+bool Database::update_question(int question_id, const std::string& content, const json& options, 
+                              const std::string& correct_option, const std::string& difficulty, const std::string& topic) {
+    const char* sql = "UPDATE Questions SET content=?, options=?, correct_option=?, difficulty=?, topic=? "
+                     "WHERE question_id=?;";
+    sqlite3_stmt* stmt;
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        return false;
+    }
+    
+    std::string options_str = options.dump();
+    
+    sqlite3_bind_text(stmt, 1, content.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, options_str.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 3, correct_option.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 4, difficulty.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 5, topic.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt, 6, question_id);
+    
+    bool success = sqlite3_step(stmt) == SQLITE_DONE;
+    sqlite3_finalize(stmt);
+    return success;
+}
+
+bool Database::delete_question(int question_id) {
+    const char* sql = "DELETE FROM Questions WHERE question_id=?;";
+    sqlite3_stmt* stmt;
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        return false;
+    }
+    
+    sqlite3_bind_int(stmt, 1, question_id);
+    bool success = sqlite3_step(stmt) == SQLITE_DONE;
+    sqlite3_finalize(stmt);
+    return success;
+}
+
+std::vector<Question> Database::get_questions_by_creator(int creator_id) {
+    std::vector<Question> questions;
+    const char* sql = "SELECT question_id, content, options, correct_option, difficulty, topic, created_by "
+                     "FROM Questions WHERE created_by = ? ORDER BY question_id DESC;";
+    sqlite3_stmt* stmt;
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        return questions;
+    }
+    
+    sqlite3_bind_int(stmt, 1, creator_id);
+    
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        Question q;
+        q.question_id = sqlite3_column_int(stmt, 0);
+        q.content = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        q.options = json::parse(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)));
+        q.correct_option = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        q.difficulty = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+        q.topic = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
+        q.created_by = sqlite3_column_int(stmt, 6);
+        questions.push_back(q);
+    }
+    
+    sqlite3_finalize(stmt);
+    return questions;
+}
+
+std::vector<Question> Database::get_all_questions() {
+    std::vector<Question> questions;
+    const char* sql = "SELECT question_id, content, options, correct_option, difficulty, topic, created_by "
+                     "FROM Questions ORDER BY question_id DESC;";
+    sqlite3_stmt* stmt;
+    
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
+        return questions;
+    }
+    
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        Question q;
+        q.question_id = sqlite3_column_int(stmt, 0);
+        q.content = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
+        q.options = json::parse(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)));
+        q.correct_option = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        q.difficulty = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
+        q.topic = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
+        q.created_by = sqlite3_column_int(stmt, 6);
+        questions.push_back(q);
+    }
+    
+    sqlite3_finalize(stmt);
+    return questions;
+}
+
 // Practice history operations
 bool Database::save_practice_result(int user_id, int correct_count, int total_questions, 
                                    const std::string& filters_json, float score_percentage) {

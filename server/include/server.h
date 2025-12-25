@@ -64,6 +64,12 @@ private:
     void handle_get_stats(int client_fd, const json& payload);
     void handle_view_room_results(int client_fd, const json& payload);
     
+    // Question Management Handlers
+    void handle_list_questions(int client_fd, const json& payload);
+    void handle_create_question(int client_fd, const json& payload);
+    void handle_update_question(int client_fd, const json& payload);
+    void handle_delete_question(int client_fd, const json& payload);
+    
     // Helper: validate session and get user info
     bool validate_session(int client_fd, const std::string& session_token, int& user_id, std::string& role);
     

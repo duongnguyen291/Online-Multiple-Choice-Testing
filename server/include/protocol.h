@@ -24,6 +24,12 @@ using json = nlohmann::json;
 #define C2S_GET_STATS         502
 #define C2S_VIEW_ROOM_RESULTS 503
 
+// Question Management (Teacher only)
+#define C2S_LIST_QUESTIONS    601
+#define C2S_CREATE_QUESTION   602
+#define C2S_UPDATE_QUESTION   603
+#define C2S_DELETE_QUESTION   604
+
 // Server to Client (S2C)
 #define S2C_RESPONSE_OK           801
 #define S2C_RESPONSE_ERROR        802
@@ -42,6 +48,12 @@ using json = nlohmann::json;
 #define S2C_STATS_DATA           1202
 #define S2C_ROOM_RESULTS_DATA    1203
 
+// Question Management Responses
+#define S2C_QUESTIONS_LIST       1301
+#define S2C_QUESTION_CREATED     1302
+#define S2C_QUESTION_UPDATED     1303
+#define S2C_QUESTION_DELETED     1304
+
 // Error codes
 #define ERR_LOGIN_FAILED       1001
 #define ERR_USERNAME_EXISTS    1002
@@ -49,6 +61,8 @@ using json = nlohmann::json;
 #define ERR_ROOM_STARTED       2002
 #define ERR_NOT_ROOM_OWNER     2003
 #define ERR_INVALID_SESSION    3001
+#define ERR_PERMISSION_DENIED  3002
+#define ERR_QUESTION_NOT_FOUND 4001
 #define ERR_SYSTEM_ERROR       9999
 
 // Protocol header structure (6 bytes)

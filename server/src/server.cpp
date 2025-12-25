@@ -211,6 +211,19 @@ void Server::handle_client_message(int client_fd) {
                 case C2S_VIEW_ROOM_RESULTS:
                     handle_view_room_results(client_fd, msg.payload);
                     break;
+                // Question Management
+                case C2S_LIST_QUESTIONS:
+                    handle_list_questions(client_fd, msg.payload);
+                    break;
+                case C2S_CREATE_QUESTION:
+                    handle_create_question(client_fd, msg.payload);
+                    break;
+                case C2S_UPDATE_QUESTION:
+                    handle_update_question(client_fd, msg.payload);
+                    break;
+                case C2S_DELETE_QUESTION:
+                    handle_delete_question(client_fd, msg.payload);
+                    break;
                 default:
                     LOG_WARN("Unknown message type: " + std::to_string(msg.type));
                     json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Unknown message type");
@@ -587,15 +600,24 @@ void Server::handle_create_room(int client_fd, const json& payload) {
         
         // Check if user is TEACHER
         if (role != "TEACHER") {
+            LOG_WARN("Permission denied: User " + std::to_string(user_id) + " is not a TEACHER");
             json error = Protocol::create_error_response(ERR_NOT_ROOM_OWNER, "Only teachers can create rooms");
             Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
             return;
         }
         
+        // Debug payload
+        LOG_INFO("Create room payload: " + payload.dump());
+        
         std::string name = payload["name"];
         int num_questions = payload["num_questions"];
         int duration_minutes = payload["duration_minutes"];
-        std::string topic = payload.value("topic", "all");
+        
+        // Handle subject/topic mismatch
+        std::string topic = "all";
+        if (payload.contains("subject")) topic = payload["subject"];
+        else if (payload.contains("topic")) topic = payload["topic"];
+            
         std::string difficulty = payload.value("difficulty", "all");
         
         json filters;
@@ -611,6 +633,7 @@ void Server::handle_create_room(int client_fd, const json& payload) {
             
             LOG_INFO("Room created: id=" + std::to_string(room_id) + ", name=" + name);
         } else {
+            LOG_ERROR("Database create_test_room failed");
             json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Failed to create room");
             Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
         }
@@ -780,6 +803,252 @@ void Server::handle_view_room_results(int client_fd, const json& payload) {
         LOG_ERROR("handle_view_room_results error: " + std::string(e.what()));
         json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "System error");
         Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+    }
+}
+
+// Question Management Handlers
+void Server::handle_list_questions(int client_fd, const json& payload) {
+    try {
+        std::string session_token = "";
+        if (payload.contains("session_token")) {
+            session_token = payload["session_token"];
+        }
+        
+        int user_id;
+        std::string role;
+        
+        if (!validate_session(client_fd, session_token, user_id, role)) {
+            return;
+        }
+        
+        if (role != "TEACHER") {
+            json error = Protocol::create_error_response(ERR_PERMISSION_DENIED, "Only teachers can view questions");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        std::vector<Question> questions = db->get_questions_by_creator(user_id);
+        
+        json question_list = json::array();
+        for (const auto& q : questions) {
+            json item;
+            item["question_id"] = q.question_id;
+            item["question_text"] = q.content;
+            item["subject"] = q.topic;
+            item["difficulty"] = q.difficulty;
+            item["correct_answer"] = q.correct_option;
+            
+            // Unpack options
+            if (q.options.contains("a")) item["option_a"] = q.options["a"];
+            if (q.options.contains("b")) item["option_b"] = q.options["b"];
+            if (q.options.contains("c")) item["option_c"] = q.options["c"];
+            if (q.options.contains("d")) item["option_d"] = q.options["d"];
+            
+            question_list.push_back(item);
+        }
+        
+        json response;
+        response["questions"] = question_list;
+        Protocol::send_message(client_fd, S2C_QUESTIONS_LIST, response);
+        LOG_INFO("Sent question list to teacher: " + std::to_string(user_id));
+    } catch (const std::exception& e) {
+        LOG_ERROR("handle_list_questions error: " + std::string(e.what()));
+        json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "System error");
+        Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+    }
+}
+
+void Server::handle_create_question(int client_fd, const json& payload) {
+    try {
+        std::string session_token = "";
+        if (payload.contains("session_token")) {
+            session_token = payload["session_token"];
+        }
+        
+        int user_id;
+        std::string role;
+        
+        if (!validate_session(client_fd, session_token, user_id, role)) {
+            LOG_WARN("Session validation failed for create_question");
+            return;
+        }
+        
+        if (role != "TEACHER") {
+            LOG_WARN("Permission denied: User " + std::to_string(user_id) + " is not a TEACHER");
+            json error = Protocol::create_error_response(ERR_PERMISSION_DENIED, "Only teachers can create questions");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        // Check required fields
+        if (!payload.contains("question_text") || !payload.contains("subject") || 
+            !payload.contains("difficulty") || !payload.contains("correct_answer")) {
+            LOG_WARN("Missing required fields in create_question payload");
+            json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Missing required fields");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        // Extract data
+        std::string content = payload["question_text"];
+        std::string topic = payload["subject"];
+        std::string difficulty = payload["difficulty"];
+        std::string correct = payload["correct_answer"];
+        
+        // Normalize difficulty to lowercase to match DB constraint
+        for (auto & c: difficulty) c = tolower(c);
+        
+        // Construct options JSON
+        json options;
+        if (payload.contains("option_a")) options["a"] = payload["option_a"];
+        if (payload.contains("option_b")) options["b"] = payload["option_b"];
+        if (payload.contains("option_c")) options["c"] = payload["option_c"];
+        if (payload.contains("option_d")) options["d"] = payload["option_d"];
+        
+        int question_id;
+        if (db->create_question(content, options, correct, difficulty, topic, user_id, question_id)) {
+            json response;
+            response["question_id"] = question_id;
+            response["message"] = "Question created successfully";
+            Protocol::send_message(client_fd, S2C_QUESTION_CREATED, response);
+            LOG_INFO("Question created by user " + std::to_string(user_id) + ": " + std::to_string(question_id));
+        } else {
+            LOG_ERROR("Database create_question failed");
+            json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Failed to create question");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+        }
+    } catch (const std::exception& e) {
+        LOG_ERROR("handle_create_question error: " + std::string(e.what()));
+        json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Invalid data format");
+        Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+    }
+}
+
+void Server::handle_update_question(int client_fd, const json& payload) {
+    try {
+        std::string session_token = "";
+        if (payload.contains("session_token")) {
+            session_token = payload["session_token"];
+        }
+        
+        int user_id;
+        std::string role;
+        
+        if (!validate_session(client_fd, session_token, user_id, role)) {
+            return;
+        }
+        
+        if (role != "TEACHER") {
+            json error = Protocol::create_error_response(ERR_PERMISSION_DENIED, "Only teachers can update questions");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        if (!payload.contains("question_id")) {
+             json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Missing question_id");
+             Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+             return;
+        }
+        
+        int question_id = payload["question_id"];
+        
+        // Verify ownership
+        Question q;
+        if (!db->get_question_by_id(question_id, q)) {
+            json error = Protocol::create_error_response(ERR_QUESTION_NOT_FOUND, "Question not found");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        if (q.created_by != user_id) {
+            json error = Protocol::create_error_response(ERR_PERMISSION_DENIED, "You can only edit your own questions");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        // Check required fields
+        if (!payload.contains("question_text") || !payload.contains("subject") || 
+            !payload.contains("difficulty") || !payload.contains("correct_answer")) {
+            json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Missing required fields");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        // Extract data
+        std::string content = payload["question_text"];
+        std::string topic = payload["subject"];
+        std::string difficulty = payload["difficulty"];
+        std::string correct = payload["correct_answer"];
+
+        // Normalize difficulty to lowercase to match DB constraint
+        for (auto & c: difficulty) c = tolower(c);
+        
+        // Construct options JSON
+        json options;
+        if (payload.contains("option_a")) options["a"] = payload["option_a"];
+        if (payload.contains("option_b")) options["b"] = payload["option_b"];
+        if (payload.contains("option_c")) options["c"] = payload["option_c"];
+        if (payload.contains("option_d")) options["d"] = payload["option_d"];
+        
+        if (db->update_question(question_id, content, options, correct, difficulty, topic)) {
+            json response;
+            response["question_id"] = question_id;
+            response["message"] = "Question updated successfully";
+            Protocol::send_message(client_fd, S2C_QUESTION_UPDATED, response);
+            LOG_INFO("Question updated: " + std::to_string(question_id));
+        } else {
+            json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Failed to update question");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+        }
+    } catch (const std::exception& e) {
+        LOG_ERROR("handle_update_question error: " + std::string(e.what()));
+    }
+}
+
+void Server::handle_delete_question(int client_fd, const json& payload) {
+    try {
+        std::string session_token = payload["session_token"];
+        int user_id;
+        std::string role;
+        
+        if (!validate_session(client_fd, session_token, user_id, role)) {
+            return;
+        }
+        
+        if (role != "TEACHER") {
+            json error = Protocol::create_error_response(ERR_PERMISSION_DENIED, "Only teachers can delete questions");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        int question_id = payload["question_id"];
+        
+        // Verify ownership
+        Question q;
+        if (!db->get_question_by_id(question_id, q)) {
+            json error = Protocol::create_error_response(ERR_QUESTION_NOT_FOUND, "Question not found");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        if (q.created_by != user_id) {
+            json error = Protocol::create_error_response(ERR_PERMISSION_DENIED, "You can only delete your own questions");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+            return;
+        }
+        
+        if (db->delete_question(question_id)) {
+            json response;
+            response["question_id"] = question_id;
+            response["message"] = "Question deleted successfully";
+            Protocol::send_message(client_fd, S2C_QUESTION_DELETED, response);
+            LOG_INFO("Question deleted: " + std::to_string(question_id));
+        } else {
+            json error = Protocol::create_error_response(ERR_SYSTEM_ERROR, "Failed to delete question");
+            Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
+        }
+    } catch (const std::exception& e) {
+        LOG_ERROR("handle_delete_question error: " + std::string(e.what()));
     }
 }
 
