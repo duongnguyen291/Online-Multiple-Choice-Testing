@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <cstring>
 #include <iostream>
+#include <netdb.h>
 #include <openssl/sha.h>
 #include <cstddef>
 
@@ -234,6 +235,20 @@ bool WebSocketGateway::parse_websocket_frame(const std::string& data, std::strin
     bool masked = (byte2 & 0x80) != 0;
     int len = byte2 & 0x7F;
     
+    // Check opcode
+    if (opcode == 8) { // Close frame
+        is_complete = true;
+        return false; // Signal to close connection
+    }
+    
+    if (opcode != 1 && opcode != 2 && opcode != 0) { // Not Text, Binary, or Continuation
+        // Ignore PING/PONG for simplicity or handle them
+        // For now, just consume them but don't return payload
+        is_complete = false; // Treat as if we need more data to skip effective processing here (simplified)
+        // ideally we should advance buffer but return "no payload"
+        return true; 
+    }
+
     // Parse payload length
     size_t header_len = 2;
     if (len == 126) {
@@ -284,6 +299,14 @@ bool WebSocketGateway::parse_websocket_frame(const std::string& data, std::strin
     
     payload = frame_payload;
     is_complete = fin;
+    
+    // Only return true (valid payload) if it is a Text frame (opcode 1)
+    // We already handled Close (8).
+    if (opcode != 1 && opcode != 0) { // 0 is continuation (assuming text)
+       // If it was a control frame like PING, we technically consumed it but didn't act.
+       // Clearing payload to avoid JSON parse error
+       payload = "";
+    }
     return true;
 }
 
@@ -320,10 +343,18 @@ int WebSocketGateway::connect_to_backend() {
         return -1;
     }
     
+    struct hostent *server = gethostbyname(backend_host.c_str());
+    if (server == NULL) {
+        std::cerr << "No such host: " << backend_host << std::endl;
+        close(sockfd);
+        return -1;
+    }
+    
     struct sockaddr_in addr;
+    bzero((char *) &addr, sizeof(addr));
     addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, (char *)&addr.sin_addr.s_addr, server->h_length);
     addr.sin_port = htons(backend_port);
-    addr.sin_addr.s_addr = inet_addr(backend_host.c_str());
     
     if (connect(sockfd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
         std::cerr << "Failed to connect to backend " << backend_host << ":" << backend_port << std::endl;
@@ -383,17 +414,17 @@ void WebSocketGateway::forward_ws_to_backend(int client_fd, const std::string& j
         memcpy(header_buf, &msg_type_net, 2);
         memcpy(header_buf + 2, &payload_length_net, 4);
         
-        // Send header + payload to backend
-        if (send(conn.backend_sockfd, header_buf, 6, MSG_NOSIGNAL) <= 0) {
-            std::cerr << "Failed to send header to backend" << std::endl;
-            return;
+        // Combine header and payload into single buffer to avoid fragmentation
+        std::vector<char> send_buffer(6 + payload_length);
+        memcpy(send_buffer.data(), header_buf, 6);
+        if (payload_length > 0) {
+            memcpy(send_buffer.data() + 6, payload.c_str(), payload_length);
         }
         
-        if (payload_length > 0) {
-            if (send(conn.backend_sockfd, payload.c_str(), payload_length, MSG_NOSIGNAL) <= 0) {
-                std::cerr << "Failed to send payload to backend" << std::endl;
-                return;
-            }
+        // Send to backend in one go
+        if (send(conn.backend_sockfd, send_buffer.data(), send_buffer.size(), MSG_NOSIGNAL) <= 0) {
+            std::cerr << "Failed to send data to backend" << std::endl;
+            return;
         }
         
         std::cout << "Forwarded message type " << msg_type << " to backend" << std::endl;
@@ -506,8 +537,10 @@ void WebSocketGateway::handle_websocket_data(int client_fd) {
         
         conn.ws_buffer.erase(0, header_len + len);
         
-        // Forward JSON to backend
-        forward_ws_to_backend(client_fd, payload);
+        // Forward JSON to backend if not empty
+        if (!payload.empty()) {
+            forward_ws_to_backend(client_fd, payload);
+        }
     }
 }
 

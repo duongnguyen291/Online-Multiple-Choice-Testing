@@ -854,6 +854,7 @@ tbody tr:hover {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -864,6 +865,7 @@ tbody tr:hover {
         transform: translateY(20px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -874,6 +876,7 @@ tbody tr:hover {
     from {
         transform: translateX(100%);
     }
+
     to {
         transform: translateX(0);
     }
@@ -918,4 +921,41 @@ tbody tr:hover {
     .question-options {
         grid-template-columns: 1fr;
     }
+}
+
+/* ==================== NOTIFICATIONS ==================== */
+.notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 2000;
+    font-weight: 500;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.notification.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.notification.success {
+    background: var(--success-color);
+    color: white;
+}
+
+.notification.error {
+    background: var(--danger-color);
+    color: white;
+}
+
+.notification.info {
+    background: var(--primary-color);
+    color: white;
 }

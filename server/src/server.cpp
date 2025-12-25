@@ -378,6 +378,7 @@ void Server::handle_login(int client_fd, const json& payload) {
         
         User user;
         if (!db->get_user_by_username(username, user)) {
+            LOG_WARN("Login failed: User not found - " + username);
             json error = Protocol::create_error_response(ERR_LOGIN_FAILED, "Invalid username or password");
             Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
             return;
@@ -385,6 +386,7 @@ void Server::handle_login(int client_fd, const json& payload) {
         
         // Verify password
         if (!SessionManager::verify_password(password, user.hashed_password)) {
+            LOG_WARN("Login failed: Password mismatch for user - " + username);
             json error = Protocol::create_error_response(ERR_LOGIN_FAILED, "Invalid username or password");
             Protocol::send_message(client_fd, S2C_RESPONSE_ERROR, error);
             return;

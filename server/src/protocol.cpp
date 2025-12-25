@@ -21,6 +21,8 @@ bool Protocol::send_exact(int sockfd, const char* buffer, size_t length) {
     return true;
 }
 
+#include <poll.h>
+
 bool Protocol::recv_exact(int sockfd, char* buffer, size_t length) {
     size_t total_received = 0;
     while (total_received < length) {
@@ -28,9 +30,20 @@ bool Protocol::recv_exact(int sockfd, char* buffer, size_t length) {
         if (received < 0) {
             // Non-blocking socket: EAGAIN/EWOULDBLOCK means no data available yet
             if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                // Not enough data available, but connection is OK
-                // Return false to indicate need to wait for more data
-                return false;
+                // If we have already received some data (or we are in the middle of a message body known by header),
+                // we should wait a bit for the rest instead of failing immediately.
+                // Using poll to wait up to 500ms for data
+                struct pollfd pfd;
+                pfd.fd = sockfd;
+                pfd.events = POLLIN;
+                int ret = poll(&pfd, 1, 500); // Wait 500ms
+                
+                if (ret > 0 && (pfd.revents & POLLIN)) {
+                    continue; // Data available, try recv again
+                }
+                
+                // Still no data after wait, or error
+                return false; 
             }
             // Other error
             LOG_ERROR("recv() failed: " + std::string(strerror(errno)));
